@@ -186,7 +186,7 @@ type FREQUENCY_TYPE is (     --  For dictionary entries
 --  D,    --  infrequent  --  recognizable variant, but unlikely
 --  E,    --  rare        --  for a few cases, very unlikely
 --  F,    --  very rare   --  singular examples, 
---  I,    --              --  Presently not used
+--  I,    --  inscription --  One example
 --  M,    --              --  Presently not used
 --  N     --              --  Presently not used
 
@@ -309,7 +309,27 @@ voorkomen: For inflections, the same type is used with different weights
 
 
 
+------------------------ O --------------------------------
+                  overpeinzingen
 
+
+We hebben:
+> een tabel met uitgangen + meer informatie
+> een tabel met stammen + meer informatie
+
+De doorsnede van deze twee tabellen is het antwoord.
+
+
+
+uitgang - woordsoort - vorm
+
+stam - woordsoort - betekenis
+
+
+
+
+
+G&L = Gildersleeve & Lodge, Latin Grammar (1903 op archive.org)
 
 
 
