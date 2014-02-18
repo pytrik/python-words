@@ -1,0 +1,32 @@
+
+
+
+
+
+N: voor zelfstandige naamwoorden:
+
+woordsoort categorie subcategorie naamval getal geslacht ? ? uitgang ? voorkomen
+
+
+
+voorkomen: For inflections, the same type is used with different weights
+
+--  X,    --              --  Unknown or unspecified
+--  A,    --  most freq   --  Very frequent, the most common
+--  B,    --  sometimes   --  sometimes, a not unusual VARIANT
+--  C,    --  uncommon    --  occasionally seen
+--  D,    --  infrequent  --  recognizable variant, but unlikely
+--  E,    --  rare        --  for a few cases, very unlikely
+--  F,    --  very rare   --  singular examples, 
+--  I,    --              --  Presently not used
+--  M,    --              --  Presently not used
+--  N     --              --  Presently not used
+
+
+
+
+
+
+
+
+vim: fo-=a
