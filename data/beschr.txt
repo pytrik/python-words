@@ -1,12 +1,181 @@
 
+-------------------------- O -------------------------------
+                  opsomming alle types
+
+type PART_OF_SPEECH_TYPE
+         X,         --  all, none, or unknown
+         N,         --  Noun
+         PRON,      --  PRONoun
+         PACK,      --  PACKON -- artificial for code
+         ADJ,       --  ADJective
+         NUM,       --  NUMeral
+         ADV,       --  ADVerb
+         V,         --  Verb
+         VPAR,      --  Verb PARticiple
+         SUPINE,    --  SUPINE
+         PREP,      --  PREPosition
+         CONJ,      --  CONJunction
+         INTERJ,    --  INTERJection
+         TACKON,    --  TACKON --  artificial for code
+         PREFIX,    --  PREFIX --  here artificial for code
+         SUFFIX     --  SUFFIX --  here artificial for code
+
+type GENDER_TYPE
+        X,         --  all, none, or unknown
+        M,         --  Masculine
+        F,         --  Feminine
+        N,         --  Neuter
+        C          --  Common (masculine and/or feminine)
+
+type CASE_TYPE
+        X,         --  all, none, or unknown
+        NOM,       --  NOMinative
+        VOC,       --  VOCative
+        GEN,       --  GENitive
+        LOC,       --  LOCative
+        DAT,       --  DATive
+        ABL,       --  ABLative
+        ACC        --  ACCusitive
+
+type NUMBER_TYPE
+        X,         --  all, none, or unknown
+        S,         --  Singular
+        P          --  Plural
+
+type PERSON_TYPE is range 0..3;
+
+type COMPARISON_TYPE
+        X,         --  all, none, or unknown
+        POS,       --  POSitive
+        COMP,      --  COMParative
+        SUPER      --  SUPERlative
+
+type NUMERAL_SORT_TYPE
+       X,          --  all, none, or unknown
+       CARD,       --  CARDinal
+       ORD,        --  ORDinal
+       DIST,       --  DISTributive
+       ADVERB      --  numeral ADVERB
+
+type TENSE_TYPE
+        X,         --  all, none, or unknown
+        PRES,      --  PRESent
+        IMPF,      --  IMPerFect
+        FUT,       --  FUTure
+        PERF,      --  PERFect
+        PLUP,      --  PLUPerfect
+        FUTP       --  FUTure Perfect
+
+type VOICE_TYPE
+        X,         --  all, none, or unknown
+        ACTIVE,    --  ACTIVE
+        PASSIVE    --  PASSIVE
+
+type MOOD_TYPE
+        X,         --  all, none, or unknown
+        IND,       --  INDicative
+        SUB,       --  SUBjunctive
+        IMP,       --  IMPerative
+        INF,       --  INFinative
+        PPL        --  ParticiPLe
+
+type NOUN_KIND_TYPE
+        X,            --  unknown, nondescript
+        S,            --  Singular "only"           --  not really used
+        M,            --  plural or Multiple "only" --  not really used
+        A,            --  Abstract idea
+        G,            --  Group/collective Name -- Roman(s)
+        N,            --  proper Name
+        P,            --  a Person
+        T,            --  a Thing
+        L,            --  Locale, name of country/city
+        W             --  a place Where
+
+type PRONOUN_KIND_TYPE
+        X,            --  unknown, nondescript
+        PERS,         --  PERSonal
+        REL,          --  RELative
+        REFLEX,       --  REFLEXive
+        DEMONS,       --  DEMONStrative
+        INTERR,       --  INTERRogative
+        INDEF,        --  INDEFinite
+        ADJECT        --  ADJECTival
+
+type VERB_KIND_TYPE
+       X,         --  all, none, or unknown
+       TO_BE,     --  only the verb TO BE (esse)
+       TO_BEING,  --  compounds of the verb to be (esse)
+       GEN,       --  verb taking the GENitive
+       DAT,       --  verb taking the DATive  
+       ABL,       --  verb taking the ABLative
+       TRANS,     --  TRANSitive verb
+       INTRANS,   --  INTRANSitive verb
+       IMPERS,    --  IMPERSonal verb (implied subject 'it', 'they', 'God')
+                  --  agent implied in action, subject in predicate
+       DEP,       --  DEPonent verb
+                  --  only passive form but with active meaning 
+       SEMIDEP,   --  SEMIDEPonent verb (forms perfect as deponent) 
+                  --  (perfect passive has active force)
+       PERFDEF    --  PERFect DEFinite verb  
+                  --  having only perfect stem, but with present force
 
 
 
+
+
+-------------------------- O -------------------------------
+
+V: verbum
+
+# V conjugation variant tense voice mood person number stem size ending age freq
+#      0-9        0-9     ↑     ↑    ↑     ↑      ↑    1-4
+# (↑ = zie boven)
+
+
+Uit de handleiding:
+
+    As an example, a verb ending record has the structure:
+    PART -- the part code for a verb = V;
+    CONjugation -- consisting of two parts:
+    WHICH -- a conjugation identifier - range 0..9 and
+    VAR -- a variant identifier on WHICH - range 0..9;
+    TENSE -- an enumeration type - range PRES..FUTP + X;
+    VOICE -- an enumeration type - range ACTIVE..PASSIVE + X;
+    MOOD -- an enumeration type - range IND..PPL + X;
+    PERSON -- person, first to third - range 1..3 + 0;
+    NUMBER -- an enumeration type - range S..P + X;
+    KEY -- which stem to be used - range 1..4;
+    SIZE -- number of characters - range 0..9;
+    ENDING -- the ending as a string of SIZE characters;
+    AGE and FREQ flags which are not usually visible to the user. 
+
+Thus, the entry for the ending appropriate to 'amo' (with STEM = am) is:
+
+V 1 1 PRES IND ACTIVE 1 S X 1 o
+
+The elements are straightforward and generally use the abbreviations that are common in any Latin text. An X or 0 represents the 'don't know' or 'don't care' for enumeration or numeric types. Details are documented below in the CODES section.
+
+A verb dictionary record has the structure:
+STEMS -- for a verb there are 4 stems;
+PART -- part code for a verb = V
+WHICH -- a conjugation identifier - range 0..9
+VAR -- a variant identifier - range 0..9;
+KIND -- enumeration type of verb - range TO_BE..PERFDEF + X;
+AGE, AREA, GEO, FREQ, and SOURCE flags
+MEANING -- text for English translations (up to 80 characters).
+
+Thus, an entry corresponding to 'amo amare amavi amatus' is:
+
+am am amav amat 
+V 1 1 X            X X X X X 
+love, like; fall in love with; be fond of; have a tendency to
+
+
+-------------------------- O -------------------------------
 
 N: voor zelfstandige naamwoorden:
 
-woordsoort categorie subcategorie naamval getal geslacht ? ? uitgang ? voorkomen
-
+# N categorie subcategorie naamval getal geslacht ? ? uitgang ? voorkomen
 
 
 voorkomen: For inflections, the same type is used with different weights
@@ -29,4 +198,4 @@ voorkomen: For inflections, the same type is used with different weights
 
 
 
-vim: fo-=a
+# vim: fo-=a
