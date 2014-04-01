@@ -6,46 +6,9 @@
 #include <unistr.h>
 #include <unistdio.h>
 
-/**
-
-  unistr.h
-  ========
-
-  Verify integrity of the string:
-const uint8_t * u8_check (const uint8_t *s, size_t n)
-
-  Comparison:
-
-u8_cmp2 (const uint8_t *s1, size_t n1, const uint8_t *s2, size_t n2)
-
-
-  Conversion:
-uint16_t * u8_to_u16 (const uint8_t *s, size_t n, uint16_t *resultbuf, size_t *lengthp)
-uint8_t * u16_to_u8 (const uint16_t *s, size_t n, uint8_t *resultbuf, size_t *lengthp)
-
-  uniconv.h
-  =========
-
-<conversions to the surrounding locale>
-
-  unistdio.h
-  ==========
-
-https://www.gnu.org/software/libunistring/manual/libunistring.html#unistdio_002eh
-
-uninorm.h -- normalisation
-
-
-// uninorm.h
-// u8_normalize ( UNINORM_NFC, *string, size, *result, *resultsize)
-
-**/
-
 // http://archives.nd.edu/whitaker/wordsdoc.htm
 // http://www.tutorialspoint.com/cprogramming/c_unions.htm
-//https://www.gnu.org/software/libunistring/manual/libunistring.html#unitypes_002eh
-
-
+// https://www.gnu.org/software/libunistring/manual/libunistring.html#unitypes_002eh
 
 // partes orationis -- quis faciendus cum parti commenticia?
 enum Pars
@@ -157,53 +120,77 @@ struct Informatio
 struct Thema
 {
     uint8_t * thema[4] ;
-    struct * Flexio flexio ;
+    struct Flexio * flexio ;
     uint8_t * interpretatio;
 };
 
 struct Suffixum
 {
     uint8_t * suffixum ;
-    struct * Flexio flexio ;
-    struct * Informatio informatio ;
+    struct Flexio * flexio ;
+    struct Informatio * informatio ;
 };
  
-// hierbeneden: lijsten ipv arrays?
-
+// inventaria concatenata suffixorum et thematum
 struct Suffixa
 {
-    uint8_t * pars ;
-    uint8_t (*liberi) [26] ;
-    struct Suffixum (*suffixa) [] ;
+    struct Suffixum * suffixum ;
+    struct Suffixa  * alter ;
 };
 
 struct Themata
 {
-    uint8_t * pars ;
-    uint8_t (*liberi) [26] ;
-    struct Thema (*themata) [] ;
+    struct Thema   * thema ;
+    struct Themata * alter ;
 };
 
-// responsum algorithmi coli est inventarium concatenatum
+// Suffixa omnia in Inventarium_suffixorum,
+// themata in Inventarium_thematum colligent.
+struct Inventarium_suffixorum
+{
+    struct Suffixa * suffixa ;
+    struct Inventarium_suffixorum * dextra ;
+    struct Inventarium_suffixorum * sinistra;
+};
+
+struct Inventarium_thematum
+{
+    struct Themata * themata ;
+    struct Inventarium_thematum * dextra ;
+    struct Inventarium_thematum * sinistra;
+};
+
+// Responsum algorithmi coli est inventarium concatenatum.
 struct Expositio
 {
-    struct * Thema ;
-    struct * Suffixum ;
-    struct * Expositio alter ;
+    struct Thema * thema ;
+    struct Suffixum * suffixum ;
+    struct Expositio * alter ;
+};
+
+// Si suffixa aut themata ordinemus, verba breviora antevertunt.
+int ordinare (uint8_t * primus, uint8_t * secundus)
+{
+    int cmp = u8_strlen (primus) - u8_strlen (secundus) ;
+    if ( 0 == cmp )
+        return u8_strcmp (primus, secundus) ;
+    else
+        return cmp ;
 };
 
 
-// eerst langste stam en uitgang vinden, dan teruglopen?
+// we beginnen achteraan het woord, want de stam is korter en met minder
 
-void colum (struct Themata themata, struct Suffixa suffixa,
-            uint8_t * verbum, struct Expositio * responsum)
+// Inquisitionem incipimus ...
+void colum ( struct Inventarium_thematum * themata
+           , struct Inventarium_suffixorum * suffixa
+           , uint8_t * verbum )
 {
 };
 
 int main ()
 {
     return 0;
-}
-
+};
 
 
