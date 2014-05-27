@@ -131,7 +131,7 @@ struct Suffixum
     struct Informatio * informatio ;
 };
  
-// inventaria concatenata suffixorum et thematum
+// Inventaria concatenata suffixorum et thematum
 struct Suffixa
 {
     struct Suffixum * suffixum ;
@@ -148,17 +148,65 @@ struct Themata
 // themata in Inventarium_thematum colligent.
 struct Inventarium_suffixorum
 {
+    uint8_t * suffixum ;
     struct Suffixa * suffixa ;
     struct Inventarium_suffixorum * dextra ;
-    struct Inventarium_suffixorum * sinistra;
+    struct Inventarium_suffixorum * sinistra ;
 };
 
 struct Inventarium_thematum
 {
+    uint8_t * thema ;
     struct Themata * themata ;
     struct Inventarium_thematum * dextra ;
-    struct Inventarium_thematum * sinistra;
+    struct Inventarium_thematum * sinistra ;
 };
+
+
+/*
+Aanname: bomen zijn zo opgebouwd dat sinister en dexter precies aan elkaar 
+grenzen: alles groter dan dexter zit onder dexter en alles kleiner dan 
+sinister onder sinister.
+*/
+
+/* handige links:
+http://stackoverflow.com/questions/308695/c-string-concatenation (linunistring: u8_strcat)
+http://www.gnu.org/software/libunistring/manual/libunistring.html#Elementary-string-functions
+https://etherpad.wikimedia.org (voor samenwerken)
+int u8_strmblen (const uint8_t *s)
+    Geeft de lengte van het eerste teken in bytes.
+int u8_strmbtouc (ucs4_t *puc, const uint8_t *s)
+    Idem, maar zet het teken in *puc, 0 voor NUL, -1 voor een fout
+*/
+
+
+// Haec functio ex verbo converso inventarium concatenatum suffixorum dat
+void enumera_suffixa ( uint8_t * mubrev    // verbum conversum
+                     , Inventarium_suffixorum * inventarium
+                     , Suffixa * expositio // ab initio vacuo
+                     , uint8_t * suffixum  // ab initio vacuo
+                     )
+{
+    int differens = ordinare(suffixum, inventarium->suffixum);
+    if (0 == differens)
+        suffixum += 1letter
+        expositio += whatever er matchde
+        if ( 0 >= ordinare(suffixum, inventarium->sinistra->suffixum) )
+            enumera_suffix(verbum
+                           , inventarium->sinistra
+                           , expositio
+                           , suffixum)
+        else
+            enumera_suffix(verbum
+                           , inventarium->dextra
+                           , expositio
+                           , suffixum)
+        elseif (0 < differens)
+            unknown
+    else
+    
+};
+
 
 // Responsum algorithmi coli est inventarium concatenatum.
 struct Expositio
@@ -179,9 +227,7 @@ int ordinare (uint8_t * primus, uint8_t * secundus)
 };
 
 
-// we beginnen achteraan het woord, want de stam is korter en met minder
-
-// Inquisitionem incipimus ...
+// Inquisitionem incipimus ab termino verbi, quoniam thema brevior sit.
 void colum ( struct Inventarium_thematum * themata
            , struct Inventarium_suffixorum * suffixa
            , uint8_t * verbum )
