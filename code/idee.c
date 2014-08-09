@@ -147,16 +147,16 @@ struct Themata
 // themata in Inventarium_thematum colligent.
 struct Inventarium_suffixorum
 {
-    uint8_t * suffixum ;
+    ucs4_t * suffixum ;
     struct Suffixa * suffixa ;
-    struct Inventarium_suffixorum * liberi [] ;
+    struct Inventarium_suffixorum ** liberi ; // TODO: doe de malloc goed
 };
 
 struct Inventarium_thematum
 {
-    uint8_t * thema ;
+    ucs4_t * thema ;
     struct Themata * themata ;
-    struct Inventarium_thematum * liberi [] ;
+    struct Inventarium_thematum ** liberi ;
 };
 
 /* handige links:
@@ -174,31 +174,34 @@ int u8_strmbtouc (ucs4_t *puc, const uint8_t *s)
 void enumera_suffixa ( uint8_t * mubrev    // verbum conversum
                      , Inventarium_suffixorum * inventarium
                      , Suffixa * expositio_suffixa // ab initio vacuo
-                     , Themata * expositio_themata // ab initio vacuo
+                     , Themata * expositio_themata // conversum, ab initio vacuo
                      )
 {
+    // transcribe suffixa et themata ex inventario suffixorum
+    Suffixa * s = inventarium->suffixa ;
+    while s
+    {
+        Suffixa * n ;
+        n->suffixum = s->suffixum ;
+        n->alter = expositio_suffixa ;
+        expositio_suffixa = n ;
+        s = s->alter ;
 
-    // dit is van de vorige keer, en dus verkeerd
-    int differens = ordinare(suffixum, inventarium->suffixum);
-    if (0 == differens)
-        suffixum += 1letter
-        expositio += whatever er matchde
-        if ( 0 >= ordinare(suffixum, inventarium->sinistra->suffixum) )
-            enumera_suffix(verbum
-                           , inventarium->sinistra
-                           , expositio
-                           , suffixum)
-        else
-            enumera_suffix(verbum
-                           , inventarium->dextra
-                           , expositio
-                           , suffixum)
-        elseif (0 < differens)
-            unknown
-    else
-    
+        Themata * t ;
+        t->thema = mubrev ;
+        t->alter = expositio_themata ;
+        expositio_themata = t
+    };
+    // quaere liberos
+    Inventarium_suffixorum * i = inventarium->liberi ;
+    uint8_t m, u ;
+
+    m  = strcat (m, ...)
+    while true
+    {
+        i++
+    }
 };
-
 
 // Responsum algorithmi coli est inventarium concatenatum.
 struct Expositio
