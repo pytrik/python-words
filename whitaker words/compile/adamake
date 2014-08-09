@@ -1,0 +1,34 @@
+#!/bin/bash
+version="1.97FC"
+ostype="linux"
+dir="words-${version}-source"
+[ -f "$1" ] || exit 1
+
+build () {
+  mkdir "$1"
+  unzip -q -d "$1" "$2"
+  cd "$1"
+
+  gnatmake words
+  gnatmake makedict
+  gnatmake makestem
+  gnatmake makeefil
+  gnatmake makeinfl
+  echo "if prompted for a choice choose 'G'"
+  ./makedict DICTLINE.GEN
+  ./makestem STEMLIST.GEN
+  ./makeefil EWDSLIST.GEN
+  ./makeinfl INFLECTS.LAT
+}
+
+build "$dir" "$1"
+
+name="words-${version}-${ostype}"
+mkdir "$name"
+mv DICTFILE.GEN STEMFILE.GEN INDXFILE.GEN EWDSFILE.GEN INFLECTS.SEC ADDONS.LAT UNIQUES.LAT words wordsdoc.htm "$name"
+printf "The 'words' program requires that the executable is in the same directory as the .GEN/.LAT/.SEC files\nTherefore it is probably practical create a bash script like:\n\n  #!/bin/bash\n  cd /where/ever/the/files/are\n  ./words \$*\n\nand place this in a convienent location.\nThis way you won't be bothered by a bunch of files every time you want to look something up.\nYou could of course place this script in a directory from de '\$PATH' variable (like /usr/local/sbin) for even easier acces.\n" > "$name/readme"
+tar -cf "$name.tar" "$name"
+gzip -9 "$name.tar"
+mv "$name.tar.gz" ..
+cd ..
+rm -rf "$dir"
