@@ -10,7 +10,7 @@
 // http://www.tutorialspoint.com/cprogramming/c_unions.htm
 // https://www.gnu.org/software/libunistring/manual/libunistring.html#unitypes_002eh
 
-// partes orationis -- quis faciendus cum parti commenticia?
+// Partes orationis -- quis faciendus cum parti commenticia?
 enum Pars
 {
     SUBSTANTIVA,
@@ -29,7 +29,6 @@ enum Pars
     //"TACKON";
     //"PACKON";
 };
-
 enum Casus
 {
     CASUS_NULLUS,
@@ -102,7 +101,7 @@ struct Flexio
     enum Pars pars;
     unsigned int ordo1 : 4 ;
     unsigned int ordo2 : 4 ;
-    unsigned int thema : 2 ;
+    unsigned int thema : 2 ; // numero est in Thema.thema[]
 };
 
 struct Informatio
@@ -150,24 +149,15 @@ struct Inventarium_suffixorum
 {
     uint8_t * suffixum ;
     struct Suffixa * suffixa ;
-    struct Inventarium_suffixorum * dextra ;
-    struct Inventarium_suffixorum * sinistra ;
+    struct Inventarium_suffixorum * liberi [] ;
 };
 
 struct Inventarium_thematum
 {
     uint8_t * thema ;
     struct Themata * themata ;
-    struct Inventarium_thematum * dextra ;
-    struct Inventarium_thematum * sinistra ;
+    struct Inventarium_thematum * liberi [] ;
 };
-
-
-/*
-Aanname: bomen zijn zo opgebouwd dat sinister en dexter precies aan elkaar 
-grenzen: alles groter dan dexter zit onder dexter en alles kleiner dan 
-sinister onder sinister.
-*/
 
 /* handige links:
 http://stackoverflow.com/questions/308695/c-string-concatenation (linunistring: u8_strcat)
@@ -183,10 +173,12 @@ int u8_strmbtouc (ucs4_t *puc, const uint8_t *s)
 // Haec functio ex verbo converso inventarium concatenatum suffixorum dat
 void enumera_suffixa ( uint8_t * mubrev    // verbum conversum
                      , Inventarium_suffixorum * inventarium
-                     , Suffixa * expositio // ab initio vacuo
-                     , uint8_t * suffixum  // ab initio vacuo
+                     , Suffixa * expositio_suffixa // ab initio vacuo
+                     , Themata * expositio_themata // ab initio vacuo
                      )
 {
+
+    // dit is van de vorige keer, en dus verkeerd
     int differens = ordinare(suffixum, inventarium->suffixum);
     if (0 == differens)
         suffixum += 1letter
